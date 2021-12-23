@@ -6,6 +6,6 @@ public interface IInvoiceRepository
 {
     Task<IEnumerable<Invoice>> GetInvoicesAsync();
     Task<Invoice> GetInvoiceByIdAsync(Guid id);
-    Task AddInvoice(Invoice invoice);
-    Task<int> GetConsecutiveByLocation(string locationCode);
+    Task AddInvoiceAsync(Invoice invoice);
+    Task<int> GetConsecutiveByLocationAsync(string locationCode);
 }

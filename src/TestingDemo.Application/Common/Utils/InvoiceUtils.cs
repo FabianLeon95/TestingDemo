@@ -10,7 +10,7 @@ namespace TestingDemo.Application.Common.Utils
             "P03"
         };
 
-        public static double CalculateTotal(double baseRate, DateTime checkIn, DateTime checkOut)
+        public static double CalculatePrice(double baseRate, DateTime checkIn, DateTime checkOut)
         {
             var totalMinutes = checkOut.Subtract(checkIn).TotalMinutes;
             var totalHours = Math.Truncate(totalMinutes % 60 >= 15 ? (totalMinutes / 60) + 1 : totalMinutes / 60);
@@ -28,6 +28,13 @@ namespace TestingDemo.Application.Common.Utils
             }
 
             return totalPrice;
+        }
+
+        public static double CalculateTaxes(double price, bool isTaxExempt)
+        {
+            if (isTaxExempt) return 0;
+
+            return price * 0.13;
         }
 
         public static string GenerateCode(string locationCode, int consecutive)

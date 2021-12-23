@@ -24,14 +24,14 @@ namespace TestingDemo.Infrastructure.Repositories
             return await _context.Invoices.FindAsync(id);
         }
 
-        public async Task AddInvoice(Invoice invoice)
+        public async Task AddInvoiceAsync(Invoice invoice)
         {
             _context.Invoices.Add(invoice);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task<int> GetConsecutiveByLocation(string locationCode)
+        public async Task<int> GetConsecutiveByLocationAsync(string locationCode)
         {
             return await _context.Invoices
                 .Where(i => i.Code.Contains(locationCode))

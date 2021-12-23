@@ -24,19 +24,20 @@ namespace TestingDemo.Application.Invoices.Commands
 
         public async Task<Invoice> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
         {
-            var consecutive = await _invoiceRepository.GetConsecutiveByLocation(request.LocationCode);
+            var consecutive = await _invoiceRepository.GetConsecutiveByLocationAsync(request.LocationCode);
             var code = InvoiceUtils.GenerateCode(request.LocationCode, consecutive);
-            var total = InvoiceUtils.CalculateTotal(request.BaseRate, request.CheckIn, request.CheckOut);
+            var price = InvoiceUtils.CalculatePrice(request.BaseRate, request.CheckIn, request.CheckOut);
+            var taxes = InvoiceUtils.CalculateTaxes(price, false);
 
             var invoice = new Invoice
             {
                 Id = Guid.NewGuid(),
                 Date = DateTime.UtcNow,
                 Code = code,
-                Total = total
+                Total = price + taxes
             };
 
-            await _invoiceRepository.AddInvoice(invoice);
+            await _invoiceRepository.AddInvoiceAsync(invoice);
 
             return invoice;
         }
