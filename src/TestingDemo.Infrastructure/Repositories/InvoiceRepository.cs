@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TestingDemo.Domain.Entities;
 using TestingDemo.Domain.Interfaces.Repositories;
+using TestingDemo.Infrastructure.Common;
 using TestingDemo.Infrastructure.DataContexts;
 
 namespace TestingDemo.Infrastructure.Repositories
@@ -26,6 +27,9 @@ namespace TestingDemo.Infrastructure.Repositories
 
         public async Task AddInvoice(Invoice invoice)
         {
+            if (await _context.Invoices.AnyAsync(i => i.Code == invoice.Code))
+                throw new DuplicateInvoiceCodeException($"Invoice code \"{invoice.Code}\" already exists.", nameof(invoice.Code));
+
             _context.Invoices.Add(invoice);
 
             await _context.SaveChangesAsync();

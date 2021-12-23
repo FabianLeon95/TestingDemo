@@ -1,16 +1,11 @@
 ﻿using TestingDemo.Application.Common.Exceptions;
+using TestingDemo.Domain.Common.Constants;
 
-namespace TestingDemo.Application.Common.Utils
+namespace TestingDemo.Application.Services
 {
-    public class InvoiceUtils
+    public class InvoiceService
     {
-        private static readonly string[] ValidLocationCodes = {
-            "P01",
-            "P02",
-            "P03"
-        };
-
-        public static double CalculateTotal(double baseRate, DateTime checkIn, DateTime checkOut)
+        public static double CalculatePrice(double baseRate, DateTime checkIn, DateTime checkOut)
         {
             var totalMinutes = checkOut.Subtract(checkIn).TotalMinutes;
             var totalHours = Math.Truncate(totalMinutes % 60 >= 15 ? (totalMinutes / 60) + 1 : totalMinutes / 60);
@@ -32,7 +27,7 @@ namespace TestingDemo.Application.Common.Utils
 
         public static string GenerateCode(string locationCode, int consecutive)
         {
-            if (!ValidLocationCodes.Contains(locationCode))
+            if (!Constants.ValidLocationCodes.Contains(locationCode))
                 throw new InvalidLocationCodeException($"Location code \"{locationCode}\" is not valid");
 
             return $"{locationCode}_{consecutive}";

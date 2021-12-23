@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using TestingDemo.Application.Common.Utils;
+using TestingDemo.Application.Services;
 using TestingDemo.Domain.Entities;
 using TestingDemo.Domain.Interfaces.Repositories;
 
@@ -25,8 +25,8 @@ namespace TestingDemo.Application.Invoices.Commands
         public async Task<Invoice> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
         {
             var consecutive = await _invoiceRepository.GetConsecutiveByLocation(request.LocationCode);
-            var code = InvoiceUtils.GenerateCode(request.LocationCode, consecutive);
-            var total = InvoiceUtils.CalculateTotal(request.BaseRate, request.CheckIn, request.CheckOut);
+            var code = InvoiceService.GenerateCode(request.LocationCode, consecutive);
+            var total = InvoiceService.CalculatePrice(request.BaseRate, request.CheckIn, request.CheckOut);
 
             var invoice = new Invoice
             {
