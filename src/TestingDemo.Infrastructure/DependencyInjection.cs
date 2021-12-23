@@ -12,7 +12,8 @@ namespace TestingDemo.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), 
+                    builder => builder.MigrationsAssembly(typeof(DataContext).Assembly.FullName)));
 
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 

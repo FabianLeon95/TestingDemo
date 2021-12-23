@@ -33,6 +33,7 @@ namespace TestingDemo.Api.Controllers
             return Ok(invoice);
         }
 
+        [HttpPost]
         public async Task<ActionResult<Invoice>> Post(CreateInvoiceCommand command)
         {
             var invoice = await _mediator.Send(command);

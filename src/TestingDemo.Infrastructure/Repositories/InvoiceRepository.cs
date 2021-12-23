@@ -34,8 +34,8 @@ namespace TestingDemo.Infrastructure.Repositories
         public async Task<int> GetConsecutiveByLocation(string locationCode)
         {
             return await _context.Invoices
-                .Where(i => EF.Functions.Like(i.Code, locationCode))
-                .CountAsync();
+                .Where(i => i.Code.Contains(locationCode))
+                .CountAsync() + 1;
         }
     }
 }
