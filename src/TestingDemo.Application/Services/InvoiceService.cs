@@ -8,6 +8,8 @@ namespace TestingDemo.Application.Services
         public static double CalculatePrice(double baseRate, DateTime checkIn, DateTime checkOut)
         {
             var totalMinutes = checkOut.Subtract(checkIn).TotalMinutes;
+
+            // después de 15 minutos se cuenta una hora adicional
             var totalHours = Math.Truncate(totalMinutes % 60 >= 15 ? (totalMinutes / 60) + 1 : totalMinutes / 60);
 
             double totalPrice = 0;
@@ -17,7 +19,7 @@ namespace TestingDemo.Application.Services
                 totalPrice += i switch
                 {
                     < 3 => baseRate, // las primeras 3 horas tienen la tarifa completa
-                    < 6 => baseRate * 0.75, // después de 3 horas y antes de las 6, se deduce el 25% por cada hora adicional
+                    < 6 => baseRate * 0.75, // después de 3 horas y hasta las 6, se deduce el 25% por cada hora adicional
                     _ => baseRate * 0.5 // después de 6 horas se deduce el 50% por cada hora adicional
                 };
             }
